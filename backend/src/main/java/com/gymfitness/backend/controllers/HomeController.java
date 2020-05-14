@@ -1,4 +1,4 @@
-package com.gymfitness.backend;
+package com.gymfitness.backend.controllers;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
