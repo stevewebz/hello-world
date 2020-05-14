@@ -1,4 +1,4 @@
-# hello-world
+# gym-fitness
 
-Hi Humans!
+Group gym project.
 
