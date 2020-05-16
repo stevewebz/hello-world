@@ -106,7 +106,7 @@ public class User {
     /**
      * @param classes the classes to set
      */
-    public void setClasses(List<GymClass> gymClasses) {
+    public void setGymClasses(List<GymClass> gymClasses) {
         GymClasses = gymClasses;
     }
 
