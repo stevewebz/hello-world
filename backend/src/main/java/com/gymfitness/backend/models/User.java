@@ -30,7 +30,7 @@ public class User {
     private UserLevel UserLevel;
 
     @ManyToMany
-    @JoinTable(name="users_classes", joinColumns=@JoinColumn(name="MemberId"), inverseJoinColumns=@JoinColumn(name="ClassId"))
+    @JoinTable(name="users_classes", joinColumns=@JoinColumn(name="UserId"), inverseJoinColumns=@JoinColumn(name="ClassId"))
     private List<Class> Classes;
 
     @OneToMany(mappedBy="User")
@@ -40,13 +40,13 @@ public class User {
     }
 
     /**
-     * @return the memberLevel
+     * @return the userLevel
      */
     public UserLevel getUserLevel() {
         return UserLevel;
     }
     /**
-     * @param memberLevel the memberLevel to set
+     * @param userLevel the userLevel to set
      */
     public void setUserLevel(UserLevel userLevel) {
         UserLevel = userLevel;

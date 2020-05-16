@@ -18,7 +18,7 @@ public class Billing{
     private Integer ClearingNo;
 
     @ManyToOne
-    @JoinColumn(name="MemberId", referencedColumnName = "MemberId")
+    @JoinColumn(name="UserId", referencedColumnName = "UserId")
     private User User;
 
     public Billing(){
@@ -64,13 +64,13 @@ public class Billing{
     }
 
     /**
-     * @return the member
+     * @return the user
      */
     public User getUser() {
         return User;
     }
     /**
-     * @param member the member to set
+     * @param user the user to set
      */
     public void setUser(User user) {
         User = user;

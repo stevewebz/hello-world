@@ -48,13 +48,13 @@ public class Class {
     }
 
     /**
-     * @return the members
+     * @return the users
      */
     public List<User> getUsers() {
         return Users;
     }
     /**
-     * @param members the members to set
+     * @param users the users to set
      */
     public void setUsers(List<User> users) {
         Users = users;
