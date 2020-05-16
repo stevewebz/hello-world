@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity(name = "members")
@@ -19,14 +21,29 @@ public class Member {
     private String Username;
     private String Password;
     private String Email;
-    private Long BillingId;
     private Long LevelId;
 
     @ManyToMany
     @JoinTable(name="members_classes", joinColumns=@JoinColumn(name="MemberId"), inverseJoinColumns=@JoinColumn(name="ClassId"))
     private List<Class> Classes;
 
+    @OneToMany(mappedBy="Member")
+    private List<Billing> Billings;
+
     public Member(){
+    }
+
+    /**
+     * @return the billings
+     */
+    public List<Billing> getBillings() {
+        return Billings;
+    }
+    /**
+     * @param billings the billings to set
+     */
+    public void setBillings(List<Billing> billings) {
+        Billings = billings;
     }
 
     /**
@@ -92,19 +109,6 @@ public class Member {
      */
     public void setEmail(String email) {
         Email = email;
-    }
-
-    /**
-     * @return the billingId
-     */
-    public Long getBillingId() {
-        return BillingId;
-    }
-    /**
-     * @param billingId the billingId to set
-     */
-    public void setBillingId(Long billingId) {
-        BillingId = billingId;
     }
 
     /**
