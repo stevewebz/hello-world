@@ -36,7 +36,23 @@ public class User {
     @OneToMany(mappedBy="User")
     private List<Billing> Billings;
 
+    @OneToMany(mappedBy = "User")
+    private List<Class> InstructorClass;
+
     public User(){
+    }
+
+    /**
+     * @return the instructorClass
+     */
+    public List<Class> getInstructorClass() {
+        return InstructorClass;
+    }
+    /**
+     * @param instructorClass the instructorClass to set
+     */
+    public void setInstructorClass(List<Class> instructorClass) {
+        InstructorClass = instructorClass;
     }
 
     /**

@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@Entity(name = "location")
+@Entity(name = "locations")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Location{
     @Id

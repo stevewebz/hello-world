@@ -31,7 +31,24 @@ public class Class {
     @JoinColumn(name="LocationId", referencedColumnName = "LocationId")
     private Location Location;
 
+    @ManyToOne
+    @JoinColumn(name="InstructorId", referencedColumnName = "UserId")
+    private User User;
+
     public Class(){
+    }
+
+    /**
+     * @return the user
+     */
+    public User getUser() {
+        return User;
+    }
+    /**
+     * @param user the user to set
+     */
+    public void setUser(User user) {
+        User = user;
     }
 
     /**
