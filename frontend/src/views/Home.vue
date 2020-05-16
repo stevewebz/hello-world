@@ -1,20 +1,19 @@
 <template>
   <div class="home">
-    <h1>{{title}}</h1>
+    <h1>{{ title }}</h1>
   </div>
 </template>
 
 <script>
-
 export default {
   name: "Home",
-  data(){
+  data() {
     return {
-      title: ''
-    }
+      title: ""
+    };
   },
-  mounted(){
-    fetch('http://localhost:8085')
+  mounted() {
+    fetch("http://localhost:8085")
       .then(response => {
         return response.text();
       })
