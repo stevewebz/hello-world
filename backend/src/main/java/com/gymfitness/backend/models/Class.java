@@ -6,7 +6,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -23,22 +25,39 @@ public class Class {
 
     @ManyToMany(mappedBy="Classes")
     @JsonIgnore
-    private List<Member> Members;
+    private List<User> Users;
+
+    @ManyToOne
+    @JoinColumn(name="LocationId", referencedColumnName = "LocationId")
+    private Location Location;
 
     public Class(){
     }
 
     /**
+     * @return the location
+     */
+    public Location getLocation() {
+        return Location;
+    }
+    /**
+     * @param location the location to set
+     */
+    public void setLocation(Location location) {
+        Location = location;
+    }
+
+    /**
      * @return the members
      */
-    public List<Member> getMembers() {
-        return Members;
+    public List<User> getUsers() {
+        return Users;
     }
     /**
      * @param members the members to set
      */
-    public void setMembers(List<Member> members) {
-        Members = members;
+    public void setUsers(List<User> users) {
+        Users = users;
     }
 
     /**

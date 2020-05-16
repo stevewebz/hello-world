@@ -1,5 +1,6 @@
 package com.gymfitness.backend.models;
 
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,41 +14,42 @@ import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@Entity(name = "members")
+@Entity(name = "users")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Member {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long MemberId;
+    private Long UserId;
     private String Username;
     private String Password;
     private String Email;
+    private Date DateJoined;
 
     @OneToOne
     @JoinColumn(name="LevelId")
-    private MemberLevel MemberLevel;
+    private UserLevel UserLevel;
 
     @ManyToMany
-    @JoinTable(name="members_classes", joinColumns=@JoinColumn(name="MemberId"), inverseJoinColumns=@JoinColumn(name="ClassId"))
+    @JoinTable(name="users_classes", joinColumns=@JoinColumn(name="MemberId"), inverseJoinColumns=@JoinColumn(name="ClassId"))
     private List<Class> Classes;
 
-    @OneToMany(mappedBy="Member")
+    @OneToMany(mappedBy="User")
     private List<Billing> Billings;
 
-    public Member(){
+    public User(){
     }
 
     /**
      * @return the memberLevel
      */
-    public MemberLevel getMemberLevel() {
-        return MemberLevel;
+    public UserLevel getUserLevel() {
+        return UserLevel;
     }
     /**
      * @param memberLevel the memberLevel to set
      */
-    public void setMemberLevel(MemberLevel memberLevel) {
-        MemberLevel = memberLevel;
+    public void setUserLevel(UserLevel userLevel) {
+        UserLevel = userLevel;
     }
 
     /**
@@ -77,16 +79,16 @@ public class Member {
     }
 
     /**
-     * @return the memberId
+     * @return the userId
      */
-    public Long getMemberId() {
-        return MemberId;
+    public Long getUserId() {
+        return UserId;
     }
     /**
-     * @param memberId the memberId to set
+     * @param userId the userId to set
      */
-    public void setMemberId(Long memberId) {
-        MemberId = memberId;
+    public void setUserId(Long userId) {
+        UserId = userId;
     }
 
     /**
@@ -126,5 +128,18 @@ public class Member {
      */
     public void setEmail(String email) {
         Email = email;
+    }
+
+    /**
+     * @return the dateJoined
+     */
+    public Date getDateJoined() {
+        return DateJoined;
+    }
+    /**
+     * @param dateJoined the dateJoined to set
+     */
+    public void setDateJoined(Date dateJoined) {
+        DateJoined = dateJoined;
     }
 }

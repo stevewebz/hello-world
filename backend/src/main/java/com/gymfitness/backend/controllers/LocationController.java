@@ -1,8 +1,9 @@
 package com.gymfitness.backend.controllers;
 
 import java.util.List;
-import com.gymfitness.backend.models.Member;
-import com.gymfitness.backend.repositories.MemberRepository;
+
+import com.gymfitness.backend.models.Location;
+import com.gymfitness.backend.repositories.LocationRepository;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,39 +16,38 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/members")
-public class MemberController {
+@RequestMapping("/api/location")
+public class LocationController {
     @Autowired
-    private MemberRepository memberRepository;
+    private LocationRepository locationRepository;
 
     @GetMapping
-    public List<Member> list(){
-        return memberRepository.findAll();
+    public List<Location> list(){
+        return locationRepository.findAll();
     }
 
     @GetMapping
     @RequestMapping("{id}")
-    public Member get(@PathVariable Long id){
-        return memberRepository.getOne(id);
+    public Location get(@PathVariable Long id){
+        return locationRepository.getOne(id);
     }
 
     @PostMapping
-    public Member create(@RequestBody final Member member){
-        return memberRepository.saveAndFlush(member);
+    public Location create(@RequestBody final Location location){
+        return locationRepository.saveAndFlush(location);
     }
 
     @RequestMapping(value="{id}",method=RequestMethod.DELETE)
     public void delete(@PathVariable Long id){
-        //check for fk constraints.. add way to delete fk also
-        memberRepository.deleteById(id);
+        locationRepository.deleteById(id);
     }
 
     @RequestMapping(value="{id}",method=RequestMethod.PUT)
-    public Member update(@PathVariable Long id, @RequestBody Member member){
+    public Location update(@PathVariable Long id, @RequestBody Location location){
         //put expects all, patch doesnt
         //todo: check all variables are here
-        Member existingMember = memberRepository.getOne(id);
-        BeanUtils.copyProperties(member, existingMember, "MemberId");
-        return memberRepository.saveAndFlush(existingMember);
+        Location existingLocation = locationRepository.getOne(id);
+        BeanUtils.copyProperties(location, existingLocation, "LocationId");
+        return locationRepository.saveAndFlush(existingLocation);
     }
 }

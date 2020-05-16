@@ -6,8 +6,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@Entity(name = "billing")
+@Entity(name = "billings")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Billing{
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -17,7 +19,7 @@ public class Billing{
 
     @ManyToOne
     @JoinColumn(name="MemberId", referencedColumnName = "MemberId")
-    private Member Member;
+    private User User;
 
     public Billing(){
     }
@@ -64,13 +66,13 @@ public class Billing{
     /**
      * @return the member
      */
-    public Member getMember() {
-        return Member;
+    public User getUser() {
+        return User;
     }
     /**
      * @param member the member to set
      */
-    public void setMember(Member member) {
-        Member = member;
+    public void setUser(User user) {
+        User = user;
     }
 }

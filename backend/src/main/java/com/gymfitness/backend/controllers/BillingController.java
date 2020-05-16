@@ -44,9 +44,9 @@ public class BillingController {
     public Billing update(@PathVariable Long id, @RequestBody Billing billing){
         //put expects all, patch doesnt
         //todo: check all variables are here
-        Billing existingClass = billingRepository.getOne(id);
-        BeanUtils.copyProperties(billing, existingClass, "MemberId");
-        return billingRepository.saveAndFlush(existingClass);
+        Billing existingBilling = billingRepository.getOne(id);
+        BeanUtils.copyProperties(billing, existingBilling, "BillingId");
+        return billingRepository.saveAndFlush(existingBilling);
     }
     
 }

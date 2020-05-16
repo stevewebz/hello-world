@@ -1,8 +1,8 @@
 package com.gymfitness.backend.controllers;
 
 import java.util.List;
-import com.gymfitness.backend.models.Class;
-import com.gymfitness.backend.repositories.ClassRepository;
+import com.gymfitness.backend.models.UserLevel;
+import com.gymfitness.backend.repositories.UserLevelRepository;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,38 +15,38 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/classes")
-public class ClassController {
+@RequestMapping("/api/user/levels")
+public class UserLevelController {
     @Autowired
-    private ClassRepository classRepository;
+    private UserLevelRepository userLevelRepository;
 
     @GetMapping
-    public List<Class> list(){
-        return classRepository.findAll();
+    public List<UserLevel> list(){
+        return userLevelRepository.findAll();
     }
 
     @GetMapping
     @RequestMapping("{id}")
-    public Class get(@PathVariable Long id){
-        return classRepository.getOne(id);
+    public UserLevel get(@PathVariable Long id){
+        return userLevelRepository.getOne(id);
     }
 
     @PostMapping
-    public Class create(@RequestBody final Class _class){
-        return classRepository.saveAndFlush(_class);
+    public UserLevel create(@RequestBody final UserLevel userLevel){
+        return userLevelRepository.saveAndFlush(userLevel);
     }
 
     @RequestMapping(value="{id}",method=RequestMethod.DELETE)
     public void delete(@PathVariable Long id){
-        classRepository.deleteById(id);
+        userLevelRepository.deleteById(id);
     }
 
     @RequestMapping(value="{id}",method=RequestMethod.PUT)
-    public Class update(@PathVariable Long id, @RequestBody Class _class){
+    public UserLevel update(@PathVariable Long id, @RequestBody UserLevel userLevel){
         //put expects all, patch doesnt
         //todo: check all variables are here
-        Class existingClass = classRepository.getOne(id);
-        BeanUtils.copyProperties(_class, existingClass, "ClassId");
-        return classRepository.saveAndFlush(existingClass);
+        UserLevel existingUserLevel = userLevelRepository.getOne(id);
+        BeanUtils.copyProperties(userLevel, existingUserLevel, "LevelId");
+        return userLevelRepository.saveAndFlush(existingUserLevel);
     }
 }

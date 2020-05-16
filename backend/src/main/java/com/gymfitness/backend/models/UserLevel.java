@@ -5,31 +5,33 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@Entity(name = "memberlevels")
-public class MemberLevel{
+@Entity(name = "userlevels")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class UserLevel{
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long LevelId;
     private String LevelName;
 
-    @OneToOne(mappedBy = "MemberLevel")
-    private Member Member;
+    @OneToOne(mappedBy = "UserLevel")
+    private User User;
 
-    public MemberLevel(){
+    public UserLevel(){
     }
 
     /**
      * @return the member
      */
-    public Member getMember() {
-        return Member;
+    public User getUser() {
+        return User;
     }
     /**
      * @param member the member to set
      */
-    public void setMember(Member member) {
-        Member = member;
+    public void setUser(User user) {
+        User = user;
     }
 
     /**

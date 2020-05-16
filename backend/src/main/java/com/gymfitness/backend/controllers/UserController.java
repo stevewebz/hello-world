@@ -1,8 +1,8 @@
 package com.gymfitness.backend.controllers;
 
 import java.util.List;
-import com.gymfitness.backend.models.MemberLevel;
-import com.gymfitness.backend.repositories.MemberLevelRepository;
+import com.gymfitness.backend.models.User;
+import com.gymfitness.backend.repositories.UserRepository;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,38 +15,39 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/member/levels")
-public class MemberLevelController {
+@RequestMapping("/api/users")
+public class UserController {
     @Autowired
-    private MemberLevelRepository memberLevelRepository;
+    private UserRepository userRepository;
 
     @GetMapping
-    public List<MemberLevel> list(){
-        return memberLevelRepository.findAll();
+    public List<User> list(){
+        return userRepository.findAll();
     }
 
     @GetMapping
     @RequestMapping("{id}")
-    public MemberLevel get(@PathVariable Long id){
-        return memberLevelRepository.getOne(id);
+    public User get(@PathVariable Long id){
+        return userRepository.getOne(id);
     }
 
     @PostMapping
-    public MemberLevel create(@RequestBody final MemberLevel memberLevel){
-        return memberLevelRepository.saveAndFlush(memberLevel);
+    public User create(@RequestBody final User user){
+        return userRepository.saveAndFlush(user);
     }
 
     @RequestMapping(value="{id}",method=RequestMethod.DELETE)
     public void delete(@PathVariable Long id){
-        memberLevelRepository.deleteById(id);
+        //check for fk constraints.. add way to delete fk also
+        userRepository.deleteById(id);
     }
 
     @RequestMapping(value="{id}",method=RequestMethod.PUT)
-    public MemberLevel update(@PathVariable Long id, @RequestBody MemberLevel memberLevel){
+    public User update(@PathVariable Long id, @RequestBody User user){
         //put expects all, patch doesnt
         //todo: check all variables are here
-        MemberLevel existingMemberLevel = memberLevelRepository.getOne(id);
-        BeanUtils.copyProperties(memberLevel, existingMemberLevel, "MemberId");
-        return memberLevelRepository.saveAndFlush(existingMemberLevel);
+        User existingUser = userRepository.getOne(id);
+        BeanUtils.copyProperties(user, existingUser, "UserId");
+        return userRepository.saveAndFlush(existingUser);
     }
 }
