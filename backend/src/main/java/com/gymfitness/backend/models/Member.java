@@ -9,6 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -21,7 +22,10 @@ public class Member {
     private String Username;
     private String Password;
     private String Email;
-    private Long LevelId;
+
+    @OneToOne
+    @JoinColumn(name="LevelId")
+    private MemberLevel MemberLevel;
 
     @ManyToMany
     @JoinTable(name="members_classes", joinColumns=@JoinColumn(name="MemberId"), inverseJoinColumns=@JoinColumn(name="ClassId"))
@@ -31,6 +35,19 @@ public class Member {
     private List<Billing> Billings;
 
     public Member(){
+    }
+
+    /**
+     * @return the memberLevel
+     */
+    public MemberLevel getMemberLevel() {
+        return MemberLevel;
+    }
+    /**
+     * @param memberLevel the memberLevel to set
+     */
+    public void setMemberLevel(MemberLevel memberLevel) {
+        MemberLevel = memberLevel;
     }
 
     /**
@@ -109,18 +126,5 @@ public class Member {
      */
     public void setEmail(String email) {
         Email = email;
-    }
-
-    /**
-     * @return the levelId
-     */
-    public Long getLevelId() {
-        return LevelId;
-    }
-    /**
-     * @param levelId the levelId to set
-     */
-    public void setLevelId(Long levelId) {
-        LevelId = levelId;
     }
 }
