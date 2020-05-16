@@ -40,6 +40,9 @@ public class GymClass {
     @OneToOne(mappedBy = "GymClass")
     private Waitlist Waitlist;
 
+    @OneToOne(mappedBy = "GymClass")
+    private Attendance attendance;
+
     public GymClass(){
     }
 

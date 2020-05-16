@@ -42,7 +42,23 @@ public class User {
     @OneToOne(mappedBy = "User")
     private Waitlist Waitlist;
 
+    @OneToOne(mappedBy = "User")
+    private Attendance Attendance;
+
     public User(){
+    }
+
+    /**
+     * @return the attendance
+     */
+    public Attendance getAttendance() {
+        return Attendance;
+    }
+    /**
+     * @param attendance the attendance to set
+     */
+    public void setAttendance(Attendance attendance) {
+        Attendance = attendance;
     }
 
     /**
