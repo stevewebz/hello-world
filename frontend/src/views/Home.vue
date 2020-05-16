@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <h1>{{ title }}</h1>
+    <h1>Home Page</h1>
   </div>
 </template>
 
@@ -13,7 +13,7 @@ export default {
     };
   },
   mounted() {
-    fetch("http://localhost:8085")
+    fetch("http://localhost:8085/api/user/levels")
       .then(response => {
         return response.text();
       })
