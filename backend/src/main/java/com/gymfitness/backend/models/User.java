@@ -31,27 +31,43 @@ public class User {
 
     @ManyToMany
     @JoinTable(name="users_classes", joinColumns=@JoinColumn(name="UserId"), inverseJoinColumns=@JoinColumn(name="ClassId"))
-    private List<Class> Classes;
+    private List<GymClass> GymClasses;
 
     @OneToMany(mappedBy="User")
     private List<Billing> Billings;
 
     @OneToMany(mappedBy = "User")
-    private List<Class> InstructorClass;
+    private List<GymClass> InstructorClass;
+
+    @OneToOne(mappedBy = "User")
+    private Waitlist Waitlist;
 
     public User(){
     }
 
     /**
+     * @return the waitlist
+     */
+    public Waitlist getWaitlist() {
+        return Waitlist;
+    }
+    /**
+     * @param waitlist the waitlist to set
+     */
+    public void setWaitlist(Waitlist waitlist) {
+        Waitlist = waitlist;
+    }
+
+    /**
      * @return the instructorClass
      */
-    public List<Class> getInstructorClass() {
+    public List<GymClass> getInstructorClass() {
         return InstructorClass;
     }
     /**
      * @param instructorClass the instructorClass to set
      */
-    public void setInstructorClass(List<Class> instructorClass) {
+    public void setInstructorClass(List<GymClass> instructorClass) {
         InstructorClass = instructorClass;
     }
 
@@ -84,14 +100,14 @@ public class User {
     /**
      * @return the classes
      */
-    public List<Class> getClasses() {
-        return Classes;
+    public List<GymClass> getGymClasses() {
+        return GymClasses;
     }
     /**
      * @param classes the classes to set
      */
-    public void setClasses(List<Class> classes) {
-        Classes = classes;
+    public void setClasses(List<GymClass> gymClasses) {
+        GymClasses = gymClasses;
     }
 
     /**

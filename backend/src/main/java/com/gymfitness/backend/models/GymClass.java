@@ -9,12 +9,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@Entity(name = "classes")
+@Entity(name = "gymclasses")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Class {
+public class GymClass {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ClassId;
@@ -23,7 +25,7 @@ public class Class {
     private Integer TotalEnrolled;
     private Date DateTime;
 
-    @ManyToMany(mappedBy="Classes")
+    @ManyToMany(mappedBy="GymClasses")
     @JsonIgnore
     private List<User> Users;
 
@@ -35,7 +37,23 @@ public class Class {
     @JoinColumn(name="InstructorId", referencedColumnName = "UserId")
     private User User;
 
-    public Class(){
+    @OneToOne(mappedBy = "GymClass")
+    private Waitlist Waitlist;
+
+    public GymClass(){
+    }
+
+    /**
+     * @return the waitlist
+     */
+    public Waitlist getWaitlist() {
+        return Waitlist;
+    }
+    /**
+     * @param waitlist the waitlist to set
+     */
+    public void setWaitlist(Waitlist waitlist) {
+        Waitlist = waitlist;
     }
 
     /**

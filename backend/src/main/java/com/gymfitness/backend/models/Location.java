@@ -17,7 +17,7 @@ public class Location{
     private String LocationName;
 
     @OneToMany(mappedBy = "Location")
-    private List<Class> Classes;
+    private List<GymClass> GymClasses;
 
     public Location(){
     }
@@ -51,13 +51,13 @@ public class Location{
     /**
      * @return the classes
      */
-    public List<Class> getClasses() {
-        return Classes;
+    public List<GymClass> getGymClasses() {
+        return GymClasses;
     }
     /**
      * @param classes the classes to set
      */
-    public void setClasses(List<Class> classes) {
-        Classes = classes;
+    public void setClasses(List<GymClass> gymClasses) {
+        GymClasses = gymClasses;
     }
 }

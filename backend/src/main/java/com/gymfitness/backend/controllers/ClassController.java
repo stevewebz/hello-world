@@ -1,8 +1,8 @@
 package com.gymfitness.backend.controllers;
 
 import java.util.List;
-import com.gymfitness.backend.models.Class;
-import com.gymfitness.backend.repositories.ClassRepository;
+import com.gymfitness.backend.models.GymClass;
+import com.gymfitness.backend.repositories.GymClassRepository;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,35 +18,35 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/classes")
 public class ClassController {
     @Autowired
-    private ClassRepository classRepository;
+    private GymClassRepository gymClassRepository;
 
     @GetMapping
-    public List<Class> list(){
-        return classRepository.findAll();
+    public List<GymClass> list(){
+        return gymClassRepository.findAll();
     }
 
     @GetMapping
     @RequestMapping("{id}")
-    public Class get(@PathVariable Long id){
-        return classRepository.getOne(id);
+    public GymClass get(@PathVariable Long id){
+        return gymClassRepository.getOne(id);
     }
 
     @PostMapping
-    public Class create(@RequestBody final Class _class){
-        return classRepository.saveAndFlush(_class);
+    public GymClass create(@RequestBody final GymClass gymClass){
+        return gymClassRepository.saveAndFlush(gymClass);
     }
 
     @RequestMapping(value="{id}",method=RequestMethod.DELETE)
     public void delete(@PathVariable Long id){
-        classRepository.deleteById(id);
+        gymClassRepository.deleteById(id);
     }
 
     @RequestMapping(value="{id}",method=RequestMethod.PUT)
-    public Class update(@PathVariable Long id, @RequestBody Class _class){
+    public GymClass update(@PathVariable Long id, @RequestBody GymClass gymClass){
         //put expects all, patch doesnt
         //todo: check all variables are here
-        Class existingClass = classRepository.getOne(id);
-        BeanUtils.copyProperties(_class, existingClass, "ClassId");
-        return classRepository.saveAndFlush(existingClass);
+        GymClass existingGymClass = gymClassRepository.getOne(id);
+        BeanUtils.copyProperties(gymClass, existingGymClass, "ClassId");
+        return gymClassRepository.saveAndFlush(existingGymClass);
     }
 }
