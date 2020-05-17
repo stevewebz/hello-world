@@ -12,7 +12,7 @@
     </p>
     <p>
       <strong>Id:</strong>
-      {{ currentUser.id }}
+      {{ currentUser.userId }}
     </p>
     <p>
       <strong>Email:</strong>
@@ -20,8 +20,8 @@
     </p>
     <strong>Authorities:</strong>
     <ul>
-      <li v-for="(role, index) in currentUser.roles" :key="index">
-        {{ role }}
+      <li v-for="(level, index) in currentUser.userLevel" :key="index">
+        {{ level }}
       </li>
     </ul>
   </div>

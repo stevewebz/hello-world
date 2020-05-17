@@ -16,19 +16,19 @@ public class HomeController {
 	}
 	
 	@GetMapping("/user")
-	@PreAuthorize("hasRole('MEMBER') or hasRole('INSTRUCTOR') or hasRole('ADMIN')")
+	@PreAuthorize("hasAuthority('MEMBER') or hasAuthority('INSTRUCTOR') or hasAuthority('ADMIN')")
 	public String userAccess() {
 		return "Member Content.";
 	}
 
 	@GetMapping("/instructor")
-	@PreAuthorize("hasRole('INSTRUCTOR')")
+	@PreAuthorize("hasAuthority('INSTRUCTOR')")
 	public String instructorAccess() {
 		return "Instructor Board.";
 	}
 
 	@GetMapping("/admin")
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public String adminAccess() {
 		return "Admin Board.";
 	}
