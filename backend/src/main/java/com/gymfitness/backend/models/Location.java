@@ -13,11 +13,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Location{
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Long LocationId;
-    private String LocationName;
+    private Long locationId;
+    private String locationName;
 
-    @OneToMany(mappedBy = "Location")
-    private List<GymClass> GymClasses;
+    @OneToMany(mappedBy = "location")
+    private List<GymClass> gymClasses;
 
     public Location(){
     }
@@ -26,38 +26,38 @@ public class Location{
      * @return the locationId
      */
     public Long getLocationId() {
-        return LocationId;
+        return locationId;
     }
     /**
      * @param locationId the locationId to set
      */
     public void setLocationId(Long locationId) {
-        LocationId = locationId;
+        this.locationId = locationId;
     }
 
     /**
      * @return the locationName
      */
     public String getLocationName() {
-        return LocationName;
+        return locationName;
     }
     /**
      * @param locationName the locationName to set
      */
     public void setLocationName(String locationName) {
-        LocationName = locationName;
+        this.locationName = locationName;
     }
 
     /**
      * @return the classes
      */
     public List<GymClass> getGymClasses() {
-        return GymClasses;
+        return gymClasses;
     }
     /**
      * @param classes the classes to set
      */
     public void setGymClasses(List<GymClass> gymClasses) {
-        GymClasses = gymClasses;
+        this.gymClasses = gymClasses;
     }
 }

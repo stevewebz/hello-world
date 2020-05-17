@@ -16,16 +16,16 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Attendance {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Long AttendanceId;
-    private Date DateTime;
+    private Long attendanceId;
+    private Date dateTime;
 
     @OneToOne
-    @JoinColumn(name="UserId")
-    private User User;
+    @JoinColumn(name="userId")
+    private User user;
 
     @OneToOne
-    @JoinColumn(name="ClassId")
-    private GymClass GymClass;
+    @JoinColumn(name="classId")
+    private GymClass gymClass;
 
     public Attendance(){
     }
@@ -34,51 +34,51 @@ public class Attendance {
      * @return the attendanceId
      */
     public Long getAttendanceId() {
-        return AttendanceId;
+        return attendanceId;
     }
     /**
      * @param attendanceId the attendanceId to set
      */
     public void setAttendanceId(Long attendanceId) {
-        AttendanceId = attendanceId;
+        this.attendanceId = attendanceId;
     }
 
     /**
      * @return the dateTime
      */
     public Date getDateTime() {
-        return DateTime;
+        return dateTime;
     }
     /**
      * @param dateTime the dateTime to set
      */
     public void setDateTime(Date dateTime) {
-        DateTime = dateTime;
+        this.dateTime = dateTime;
     }
 
     /**
      * @return the user
      */
     public User getUser() {
-        return User;
+        return user;
     }
     /**
      * @param user the user to set
      */
     public void setUser(User user) {
-        User = user;
+        this.user = user;
     }
 
     /**
      * @return the gymClass
      */
     public GymClass getGymClass() {
-        return GymClass;
+        return gymClass;
     }
     /**
      * @param gymClass the gymClass to set
      */
     public void setGymClass(GymClass gymClass) {
-        GymClass = gymClass;
+        this.gymClass = gymClass;
     }
 }

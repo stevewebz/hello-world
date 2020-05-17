@@ -1,7 +1,10 @@
 package com.gymfitness.backend.models;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,175 +22,197 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long UserId;
-    private String Username;
-    private String Password;
-    private String Email;
-    private Date DateJoined;
-
-    @OneToOne
-    @JoinColumn(name="LevelId")
-    private UserLevel UserLevel;
+    private Long userId;
+    private String username;
+    private String password;
+    private String email;
+    private Date dateJoined;
+    private Boolean cancelled;
 
     @ManyToMany
-    @JoinTable(name="users_classes", joinColumns=@JoinColumn(name="UserId"), inverseJoinColumns=@JoinColumn(name="ClassId"))
-    private List<GymClass> GymClasses;
+    @JoinTable(name="users_levels", joinColumns=@JoinColumn(name="userId"), inverseJoinColumns=@JoinColumn(name="levelId"))
+    private Set<UserLevel> userLevel = new HashSet<>();
 
-    @OneToMany(mappedBy="User")
-    private List<Billing> Billings;
+    @ManyToMany
+    @JoinTable(name="users_classes", joinColumns=@JoinColumn(name="userId"), inverseJoinColumns=@JoinColumn(name="classId"))
+    private List<GymClass> gymClasses;
 
-    @OneToMany(mappedBy = "User")
-    private List<GymClass> InstructorClass;
+    @OneToMany(mappedBy="user")
+    private List<Billing> billings;
 
-    @OneToOne(mappedBy = "User")
-    private Waitlist Waitlist;
+    @OneToMany(mappedBy = "user")
+    private List<GymClass> instructorClass;
 
-    @OneToOne(mappedBy = "User")
-    private Attendance Attendance;
+    @OneToOne(mappedBy = "user")
+    private Waitlist waitlist;
+
+    @OneToOne(mappedBy = "user")
+    private Attendance attendance;
 
     public User(){
     }
+
+    public User(String username, String email, String password) {
+		this.username = username;
+		this.email = email;
+        this.password = password;
+        this.dateJoined = new Date();
+        this.cancelled = false;
+	}
 
     /**
      * @return the attendance
      */
     public Attendance getAttendance() {
-        return Attendance;
+        return attendance;
     }
     /**
      * @param attendance the attendance to set
      */
     public void setAttendance(Attendance attendance) {
-        Attendance = attendance;
+        this.attendance = attendance;
     }
 
     /**
      * @return the waitlist
      */
     public Waitlist getWaitlist() {
-        return Waitlist;
+        return waitlist;
     }
     /**
      * @param waitlist the waitlist to set
      */
     public void setWaitlist(Waitlist waitlist) {
-        Waitlist = waitlist;
+        this.waitlist = waitlist;
     }
 
     /**
      * @return the instructorClass
      */
     public List<GymClass> getInstructorClass() {
-        return InstructorClass;
+        return instructorClass;
     }
     /**
      * @param instructorClass the instructorClass to set
      */
     public void setInstructorClass(List<GymClass> instructorClass) {
-        InstructorClass = instructorClass;
+        this.instructorClass = instructorClass;
     }
 
     /**
      * @return the userLevel
      */
-    public UserLevel getUserLevel() {
-        return UserLevel;
+    public Set<UserLevel> getUserLevel() {
+        return userLevel;
     }
     /**
      * @param userLevel the userLevel to set
      */
-    public void setUserLevel(UserLevel userLevel) {
-        UserLevel = userLevel;
+    public void setUserLevel(Set<UserLevel> userLevel) {
+        this.userLevel = userLevel;
     }
 
     /**
      * @return the billings
      */
     public List<Billing> getBillings() {
-        return Billings;
+        return billings;
     }
     /**
      * @param billings the billings to set
      */
     public void setBillings(List<Billing> billings) {
-        Billings = billings;
+        this.billings = billings;
     }
 
     /**
      * @return the classes
      */
     public List<GymClass> getGymClasses() {
-        return GymClasses;
+        return gymClasses;
     }
     /**
      * @param classes the classes to set
      */
     public void setGymClasses(List<GymClass> gymClasses) {
-        GymClasses = gymClasses;
+        this.gymClasses = gymClasses;
     }
 
     /**
      * @return the userId
      */
     public Long getUserId() {
-        return UserId;
+        return userId;
     }
     /**
      * @param userId the userId to set
      */
     public void setUserId(Long userId) {
-        UserId = userId;
+        this.userId = userId;
     }
 
     /**
      * @return the username
      */
     public String getUsername() {
-        return Username;
+        return username;
     }
     /**
      * @param username the username to set
      */
     public void setUsername(String username) {
-        Username = username;
+        this.username = username;
     }
 
     /**
      * @return the password
      */
     public String getPassword() {
-        return Password;
+        return password;
     }
     /**
      * @param password the password to set
      */
     public void setPassword(String password) {
-        Password = password;
+        this.password = password;
     }
 
     /**
      * @return the email
      */
     public String getEmail() {
-        return Email;
+        return email;
     }
     /**
      * @param email the email to set
      */
     public void setEmail(String email) {
-        Email = email;
+        this.email = email;
     }
 
     /**
      * @return the dateJoined
      */
     public Date getDateJoined() {
-        return DateJoined;
+        return dateJoined;
     }
     /**
      * @param dateJoined the dateJoined to set
      */
     public void setDateJoined(Date dateJoined) {
-        DateJoined = dateJoined;
+        this.dateJoined = dateJoined;
+    }
+
+    /**
+     * @return the cancelled
+     */
+    public Boolean getCancelled() {
+        return cancelled;
+    }
+    /**
+     * @param cancelled the cancelled to set
+     */
+    public void setCancelled(Boolean cancelled) {
+        this.cancelled = cancelled;
     }
 }

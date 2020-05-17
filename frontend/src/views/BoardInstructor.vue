@@ -9,14 +9,14 @@
 <script>
 import UserService from "../services/user.service";
 export default {
-  name: "Home",
+  name: "Instructor",
   data() {
     return {
       content: ""
     };
   },
   mounted() {
-    UserService.getPublicContent().then(
+    UserService.getInstructorBoard().then(
       response => {
         this.content = response.data;
       },

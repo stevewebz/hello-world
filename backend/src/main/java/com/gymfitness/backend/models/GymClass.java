@@ -19,28 +19,28 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class GymClass {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long ClassId;
-    private String ClassName;
-    private Integer MaxCapacity;
-    private Integer TotalEnrolled;
-    private Date DateTime;
+    private Long classId;
+    private String className;
+    private Integer maxCapacity;
+    private Integer totalEnrolled;
+    private Date dateTime;
 
-    @ManyToMany(mappedBy="GymClasses")
+    @ManyToMany(mappedBy="gymClasses")
     @JsonIgnore
-    private List<User> Users;
+    private List<User> users;
 
     @ManyToOne
-    @JoinColumn(name="LocationId", referencedColumnName = "LocationId")
-    private Location Location;
+    @JoinColumn(name="locationId", referencedColumnName = "locationId")
+    private Location location;
 
     @ManyToOne
-    @JoinColumn(name="InstructorId", referencedColumnName = "UserId")
-    private User User;
+    @JoinColumn(name="instructorId", referencedColumnName = "userId")
+    private User user;
 
-    @OneToOne(mappedBy = "GymClass")
-    private Waitlist Waitlist;
+    @OneToOne(mappedBy = "gymClass")
+    private Waitlist waitlist;
 
-    @OneToOne(mappedBy = "GymClass")
+    @OneToOne(mappedBy = "gymClass")
     private Attendance attendance;
 
     public GymClass(){
@@ -50,117 +50,117 @@ public class GymClass {
      * @return the waitlist
      */
     public Waitlist getWaitlist() {
-        return Waitlist;
+        return waitlist;
     }
     /**
      * @param waitlist the waitlist to set
      */
     public void setWaitlist(Waitlist waitlist) {
-        Waitlist = waitlist;
+        this.waitlist = waitlist;
     }
 
     /**
      * @return the user
      */
     public User getUser() {
-        return User;
+        return user;
     }
     /**
      * @param user the user to set
      */
     public void setUser(User user) {
-        User = user;
+        this.user = user;
     }
 
     /**
      * @return the location
      */
     public Location getLocation() {
-        return Location;
+        return location;
     }
     /**
      * @param location the location to set
      */
     public void setLocation(Location location) {
-        Location = location;
+        this.location = location;
     }
 
     /**
      * @return the users
      */
     public List<User> getUsers() {
-        return Users;
+        return users;
     }
     /**
      * @param users the users to set
      */
     public void setUsers(List<User> users) {
-        Users = users;
+        this.users = users;
     }
 
     /**
      * @return the classId
      */
     public Long getClassId() {
-        return ClassId;
+        return classId;
     }
     /**
      * @param classId the classId to set
      */
     public void setClassId(Long classId) {
-        ClassId = classId;
+        this.classId = classId;
     }
 
     /**
      * @return the className
      */
     public String getClassName() {
-        return ClassName;
+        return className;
     }
     /**
      * @param className the className to set
      */
     public void setClassName(String className) {
-        ClassName = className;
+        this.className = className;
     }
 
     /**
      * @return the maxCapacity
      */
     public Integer getMaxCapacity() {
-        return MaxCapacity;
+        return maxCapacity;
     }
     /**
      * @param maxCapacity the maxCapacity to set
      */
     public void setMaxCapacity(Integer maxCapacity) {
-        MaxCapacity = maxCapacity;
+        this.maxCapacity = maxCapacity;
     }
 
     /**
      * @return the totalEnrolled
      */
     public Integer getTotalEnrolled() {
-        return TotalEnrolled;
+        return totalEnrolled;
     }
     /**
      * @param totalEnrolled the totalEnrolled to set
      */
     public void setTotalEnrolled(Integer totalEnrolled) {
-        TotalEnrolled = totalEnrolled;
+        this.totalEnrolled = totalEnrolled;
     }
 
     /**
      * @return the dateTime
      */
     public Date getDateTime() {
-        return DateTime;
+        return dateTime;
     }
     /**
      * @param dateTime the dateTime to set
      */
     public void setDateTime(Date dateTime) {
-        DateTime = dateTime;
+        this.dateTime = dateTime;
     }
 
 }

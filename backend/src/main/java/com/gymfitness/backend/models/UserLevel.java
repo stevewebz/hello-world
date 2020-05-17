@@ -1,10 +1,11 @@
 package com.gymfitness.backend.models;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity(name = "userlevels")
@@ -12,51 +13,41 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class UserLevel{
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Long LevelId;
-    private String LevelName;
+    private Long levelId;
 
-    @OneToOne(mappedBy = "UserLevel")
-    private User User;
+    @Enumerated(EnumType.STRING)
+    private EnumLevel levelName;
 
     public UserLevel(){
     }
 
-    /**
-     * @return the user
-     */
-    public User getUser() {
-        return User;
-    }
-    /**
-     * @param user the user to set
-     */
-    public void setUser(User user) {
-        User = user;
+    public UserLevel(EnumLevel levelName){
+        this.levelName = levelName;
     }
 
     /**
      * @return the levelId
      */
     public Long getLevelId() {
-        return LevelId;
+        return levelId;
     }
     /**
      * @param levelId the levelId to set
      */
     public void setLevelId(Long levelId) {
-        LevelId = levelId;
+        this.levelId = levelId;
     }
 
     /**
      * @return the levelName
      */
-    public String getLevelName() {
-        return LevelName;
+    public EnumLevel getLevelName() {
+        return levelName;
     }
     /**
      * @param levelName the levelName to set
      */
-    public void setLevelName(String levelName) {
-        LevelName = levelName;
+    public void setLevelName(EnumLevel levelName) {
+        this.levelName = levelName;
     }
 }

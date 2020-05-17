@@ -13,13 +13,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Billing{
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Long BillingId;
-    private Integer BankNo;
-    private Integer ClearingNo;
+    private Long billingId;
+    private Integer bankNo;
+    private Integer clearingNo;
 
     @ManyToOne
-    @JoinColumn(name="UserId", referencedColumnName = "UserId")
-    private User User;
+    @JoinColumn(name="userId", referencedColumnName = "userId")
+    private User user;
 
     public Billing(){
     }
@@ -28,51 +28,51 @@ public class Billing{
      * @return the billingId
      */
     public Long getBillingId() {
-        return BillingId;
+        return billingId;
     }
     /**
      * @param billingId the billingId to set
      */
     public void setBillingId(Long billingId) {
-        BillingId = billingId;
+        this.billingId = billingId;
     }
 
     /**
      * @return the bankNo
      */
     public Integer getBankNo() {
-        return BankNo;
+        return bankNo;
     }
     /**
      * @param bankNo the bankNo to set
      */
     public void setBankNo(Integer bankNo) {
-        BankNo = bankNo;
+        this.bankNo = bankNo;
     }
 
     /**
      * @return the clearingNo
      */
     public Integer getClearingNo() {
-        return ClearingNo;
+        return clearingNo;
     }
     /**
      * @param clearingNo the clearingNo to set
      */
     public void setClearingNo(Integer clearingNo) {
-        ClearingNo = clearingNo;
+        this.clearingNo = clearingNo;
     }
 
     /**
      * @return the user
      */
     public User getUser() {
-        return User;
+        return user;
     }
     /**
      * @param user the user to set
      */
     public void setUser(User user) {
-        User = user;
+        this.user = user;
     }
 }

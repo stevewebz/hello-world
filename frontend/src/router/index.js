@@ -1,6 +1,12 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
+import Login from "../views/Login.vue";
+import Register from "../views/Register.vue";
+import Profile from "../views/Profile.vue";
+import BoardAdmin from "../views/BoardAdmin.vue";
+import BoardInstructor from "../views/BoardInstructor.vue";
+import BoardUser from "../views/BoardUser.vue";
 
 Vue.use(VueRouter);
 
@@ -11,19 +17,34 @@ const routes = [
     component: Home
   },
   {
-    path: "/about",
-    name: "About",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue")
+    path: "/login",
+    name: "Login",
+    component: Login
   },
   {
-    path: "/levels",
-    name: "Level",
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/Levels.vue")
+    path: "/register",
+    name: "Register",
+    component: Register
+  },
+  {
+    path: "/profile",
+    name: "Profile",
+    component: Profile
+  },
+  {
+    path: "/admin",
+    name: "Admin",
+    component: BoardAdmin
+  },
+  {
+    path: "/instructor",
+    name: "Instructor",
+    component: BoardInstructor
+  },
+  {
+    path: "/user",
+    name: "User",
+    component: BoardUser
   }
 ];
 
