@@ -100,6 +100,7 @@ export default {
                 (error.response && error.response.data) ||
                 error.message ||
                 error.toString();
+                this.message = "Invalid credentials!";
             }
           );
         }

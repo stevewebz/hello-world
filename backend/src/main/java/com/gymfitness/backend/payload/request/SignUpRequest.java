@@ -14,7 +14,7 @@ public class SignUpRequest {
     @Email
     private String email;
     
-    private Set<String> level;
+    private String level;
     
     @NotBlank
     @Size(min = 6, max = 40)
@@ -44,11 +44,11 @@ public class SignUpRequest {
         this.password = password;
     }
     
-    public Set<String> getUserLevel() {
+    public String getLevel() {
       return this.level;
     }
     
-    public void setUserLevel(Set<String> level) {
+    public void setUserLevel(String level) {
       this.level = level;
     }
 }

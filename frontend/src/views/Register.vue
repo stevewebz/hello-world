@@ -54,6 +54,21 @@
             </div>
           </div>
           <div class="form-group">
+            <label for="level">Membership Tier</label>
+            <b-form-select v-model="user.level" 
+              :options="options" 
+              v-validate="'required'"
+              class="form-control"
+              name="level">
+            </b-form-select>
+            <div
+              v-if="submitted && errors.has('level')"
+              class="alert-danger"
+            >
+            You must select a Membership Tier
+            </div>
+          </div>
+          <div class="form-group">
             <button class="btn btn-primary btn-block">Sign Up</button>
           </div>
         </div>
@@ -76,10 +91,16 @@ export default {
   name: "Register",
   data() {
     return {
-      user: new User("", "", ""),
+      user: new User("", "", "", null),
       submitted: false,
       successful: false,
-      message: ""
+      message: "",
+      options: [
+        { value: null, text: 'Please select a Tier' },
+        { value: 'MEMBER_BASIC', text: 'Basic' },
+        { value: 'MEMBER_STANDARD', text: 'Standard' },
+        { value: 'MEMBER_PREMIUM', text: 'Premium' }
+      ]
     };
   },
   computed: {

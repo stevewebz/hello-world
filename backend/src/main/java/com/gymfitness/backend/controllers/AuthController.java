@@ -91,34 +91,44 @@ public class AuthController {
 							 signUpRequest.getEmail(),
 							 encoder.encode(signUpRequest.getPassword()));
 
-		Set<String> strLevels = signUpRequest.getUserLevel();
+		String strLevels = signUpRequest.getLevel();
 		Set<UserLevel> levels = new HashSet<>();
 
 		if (strLevels == null) {
-			UserLevel memberLevel = userLevelRepository.findByLevelName(EnumLevel.MEMBER)
+			UserLevel memberLevel = userLevelRepository.findByLevelName(EnumLevel.MEMBER_BASIC)
 					.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 			levels.add(memberLevel);
 		} else {
-			strLevels.forEach(level -> {
-				switch (level) {
-				case "ADMIN":
-					UserLevel adminLevel = userLevelRepository.findByLevelName(EnumLevel.ADMIN)
-							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-					levels.add(adminLevel);
+			switch (strLevels) {
+			case "MEMBER_STANDARD":
+				UserLevel standardLevel = userLevelRepository.findByLevelName(EnumLevel.MEMBER_STANDARD)
+						.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+				levels.add(standardLevel);
 
-					break;
-				case "INSTRUCTOR":
-					UserLevel instructorLevel = userLevelRepository.findByLevelName(EnumLevel.INSTRUCTOR)
-							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-					levels.add(instructorLevel);
+				break;
+			case "MEMBER_PREMIUM":
+				UserLevel premiumLevel = userLevelRepository.findByLevelName(EnumLevel.MEMBER_PREMIUM)
+						.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+				levels.add(premiumLevel);
 
-					break;
-				default:
-					UserLevel memberLevel = userLevelRepository.findByLevelName(EnumLevel.MEMBER)
-							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-					levels.add(memberLevel);
-				}
-			});
+				break;
+			case "ADMIN":
+				UserLevel adminLevel = userLevelRepository.findByLevelName(EnumLevel.ADMIN)
+						.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+				levels.add(adminLevel);
+
+				break;
+			case "INSTRUCTOR":
+				UserLevel instructorLevel = userLevelRepository.findByLevelName(EnumLevel.INSTRUCTOR)
+						.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+				levels.add(instructorLevel);
+
+				break;
+			default:
+				UserLevel memberLevel = userLevelRepository.findByLevelName(EnumLevel.MEMBER_BASIC)
+						.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+				levels.add(memberLevel);
+			}
 		}
 
 		user.setUserLevel(levels);
