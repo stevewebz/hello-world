@@ -7,6 +7,7 @@ import Profile from "../views/Profile.vue";
 import BoardAdmin from "../views/BoardAdmin.vue";
 import BoardInstructor from "../views/BoardInstructor.vue";
 import BoardUser from "../views/BoardUser.vue";
+import GetStarted from "../views/GetStarted.vue";
 
 Vue.use(VueRouter);
 
@@ -45,6 +46,11 @@ const routes = [
     path: "/user",
     name: "User",
     component: BoardUser
+  },
+  {
+    path: "/getstarted",
+    name: "GetStarted",
+    component: GetStarted
   }
 ];
 

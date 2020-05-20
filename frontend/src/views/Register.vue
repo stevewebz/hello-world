@@ -1,11 +1,6 @@
 <template>
-  <div class="col-md-12">
-    <div class="card card-container">
-      <img
-        id="profile-img"
-        src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-        class="profile-img-card"
-      />
+  <div class="row" style="margin-top: 4rem">
+    <div class="col-md-6" style="text-align: left">
       <form name="form" @submit.prevent="handleRegister">
         <div v-if="!successful">
           <div class="form-group">
@@ -55,17 +50,16 @@
           </div>
           <div class="form-group">
             <label for="level">Membership Tier</label>
-            <b-form-select v-model="user.level" 
-              :options="options" 
+            <b-form-select
+              v-model="user.level"
+              :options="options"
               v-validate="'required'"
               class="form-control"
-              name="level">
-            </b-form-select>
-            <div
-              v-if="submitted && errors.has('level')"
-              class="alert-danger"
+              name="level"
             >
-            You must select a Membership Tier
+            </b-form-select>
+            <div v-if="submitted && errors.has('level')" class="alert-danger">
+              You must select a Membership Tier
             </div>
           </div>
           <div class="form-group">
@@ -96,10 +90,10 @@ export default {
       successful: false,
       message: "",
       options: [
-        { value: null, text: 'Please select a Tier' },
-        { value: 'MEMBER_BASIC', text: 'Basic' },
-        { value: 'MEMBER_STANDARD', text: 'Standard' },
-        { value: 'MEMBER_PREMIUM', text: 'Premium' }
+        { value: null, text: "Please select a Tier" },
+        { value: "MEMBER_BASIC", text: "Basic" },
+        { value: "MEMBER_STANDARD", text: "Standard" },
+        { value: "MEMBER_PREMIUM", text: "Premium" }
       ]
     };
   },
