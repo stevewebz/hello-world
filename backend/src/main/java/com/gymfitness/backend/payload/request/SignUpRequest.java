@@ -1,13 +1,15 @@
 package com.gymfitness.backend.payload.request;
 
-import java.util.Set;
-
 import javax.validation.constraints.*;
  
 public class SignUpRequest {
     @NotBlank
-    @Size(min = 3, max = 20)
-    private String username;
+    @Size(min = 3, max = 40)
+    private String firstname;
+
+    @NotBlank
+    @Size(min = 3, max = 40)
+    private String surname;
  
     @NotBlank
     @Size(max = 50)
@@ -20,12 +22,20 @@ public class SignUpRequest {
     @Size(min = 6, max = 40)
     private String password;
   
-    public String getUsername() {
-        return username;
+    public String getFirstname() {
+        return firstname;
     }
- 
-    public void setUsername(String username) {
-        this.username = username;
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
  
     public String getEmail() {

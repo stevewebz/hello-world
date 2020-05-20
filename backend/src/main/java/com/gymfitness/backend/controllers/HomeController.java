@@ -16,7 +16,7 @@ public class HomeController {
 	}
 	
 	@GetMapping("/user")
-	@PreAuthorize("hasAuthority('MEMBER') or hasAuthority('INSTRUCTOR') or hasAuthority('ADMIN')")
+	@PreAuthorize("hasAuthority('MEMBER_BASIC') or hasAuthority('MEMBER_STANDARD') or hasAuthority('MEMBER_PREMIUM') or hasAuthority('INSTRUCTOR') or hasAuthority('ADMIN')")
 	public String userAccess() {
 		return "Member Content.";
 	}

@@ -6,14 +6,16 @@ public class JwtResponse {
 	private String token;
 	private String type = "Bearer";
 	private Long userId;
-	private String username;
+	private String firstname;
+	private String surname;
 	private String email;
 	private List<String> level;
 
-	public JwtResponse(String accessToken, Long id, String username, String email, List<String> level) {
+	public JwtResponse(String accessToken, Long id, String firstname, String surname, String email, List<String> level) {
 		this.token = accessToken;
 		this.userId = id;
-		this.username = username;
+		this.firstname = firstname;
+		this.surname = surname;
 		this.email = email;
 		this.level = level;
 	}
@@ -50,12 +52,30 @@ public class JwtResponse {
 		this.email = email;
 	}
 
-	public String getUsername() {
-		return username;
+	/**
+	 * @return the firstname
+	 */
+	public String getFirstname() {
+		return firstname;
+	}
+	/**
+	 * @param firstname the firstname to set
+	 */
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	/**
+	 * @return the surname
+	 */
+	public String getSurname() {
+		return surname;
+	}
+	/**
+	 * @param surname the surname to set
+	 */
+	public void setSurname(String surname) {
+		this.surname = surname;
 	}
 
 	public List<String> getUserLevel() {

@@ -23,7 +23,8 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
-    private String username;
+    private String firstname;
+    private String surname;
     private String password;
     private String email;
     private Date dateJoined;
@@ -52,8 +53,9 @@ public class User {
     public User(){
     }
 
-    public User(String username, String email, String password) {
-		this.username = username;
+    public User(String firstname, String surname, String email, String password) {
+        this.firstname = firstname;
+        this.surname = surname;
 		this.email = email;
         this.password = password;
         this.dateJoined = new Date();
@@ -152,16 +154,29 @@ public class User {
     }
 
     /**
-     * @return the username
+     * @return the firstname
      */
-    public String getUsername() {
-        return username;
+    public String getFirstname() {
+        return firstname;
     }
     /**
-     * @param username the username to set
+     * @param firstname the firstname to set
      */
-    public void setUsername(String username) {
-        this.username = username;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    /**
+     * @return the surname
+     */
+    public String getSurname() {
+        return surname;
+    }
+    /**
+     * @param surname the surname to set
+     */
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     /**

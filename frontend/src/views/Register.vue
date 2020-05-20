@@ -1,22 +1,33 @@
 <template>
-  <div class="row" style="margin-top: 4rem">
-    <div class="col-md-6" style="text-align: left">
+<div class="container">
+  <div class="row">
+    <div class="col-lg-6 offset-3" style="text-align: left; margin-top: 4rem">
       <form name="form" @submit.prevent="handleRegister">
         <div v-if="!successful">
           <div class="form-group">
-            <label for="username">Username</label>
+            <label for="firstname">First Name</label>
             <input
-              v-model="user.username"
-              v-validate="'required|min:3|max:20'"
+              v-model="user.firstname"
+              v-validate="'required|min:3|max:40'"
               type="text"
               class="form-control"
-              name="username"
+              name="firstname"
             />
-            <div
-              v-if="submitted && errors.has('username')"
-              class="alert-danger"
-            >
-              {{ errors.first("username") }}
+            <div v-if="submitted && errors.has('firstname')" class="alert-danger">
+              {{ errors.first("firstname") }}
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="surname">Surname</label>
+            <input
+              v-model="user.surname"
+              v-validate="'required|min:3|max:40'"
+              type="text"
+              class="form-control"
+              name="surname"
+            />
+            <div v-if="submitted && errors.has('surname')" class="alert-danger">
+              {{ errors.first("surname") }}
             </div>
           </div>
           <div class="form-group">
@@ -62,8 +73,9 @@
               You must select a Membership Tier
             </div>
           </div>
+          <br/>
           <div class="form-group">
-            <button class="btn btn-primary btn-block">Sign Up</button>
+            <button class="btn btn-secondary btn-block">Submit</button>
           </div>
         </div>
       </form>
@@ -77,6 +89,7 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -85,7 +98,7 @@ export default {
   name: "Register",
   data() {
     return {
-      user: new User("", "", "", null),
+      user: new User("", "", "", "", null),
       submitted: false,
       successful: false,
       message: "",

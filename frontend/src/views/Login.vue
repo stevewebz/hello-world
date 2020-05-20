@@ -1,27 +1,23 @@
 <template>
-  <div class="col-md-12">
-    <div class="card card-container">
-      <img
-        id="profile-img"
-        src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-        class="profile-img-card"
-      />
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-3" style="text-align: left; margin-top: 4rem">
       <form name="form" @submit.prevent="handleLogin">
         <div class="form-group">
-          <label for="username">Username</label>
+          <label for="email">Email</label>
           <input
-            v-model="user.username"
+            v-model="user.email"
             v-validate="'required'"
             type="text"
             class="form-control"
-            name="username"
+            name="email"
           />
           <div
-            v-if="errors.has('username')"
+            v-if="errors.has('email')"
             class="alert alert-danger"
             role="alert"
           >
-            Username is required!
+            Email is required!
           </div>
         </div>
         <div class="form-group">
@@ -41,8 +37,9 @@
             Password is required!
           </div>
         </div>
+        <br/>
         <div class="form-group">
-          <button class="btn btn-primary btn-block" :disabled="loading">
+          <button class="btn btn-secondary btn-block" :disabled="loading">
             <span
               v-show="loading"
               class="spinner-border spinner-border-sm"
@@ -58,6 +55,7 @@
       </form>
     </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -89,7 +87,7 @@ export default {
           this.loading = false;
           return;
         }
-        if (this.user.username && this.user.password) {
+        if (this.user.email && this.user.password) {
           this.$store.dispatch("auth/login", this.user).then(
             () => {
               this.$router.push("/profile");
