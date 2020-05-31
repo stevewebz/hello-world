@@ -6,6 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity(name = "locations")
@@ -16,6 +18,7 @@ public class Location{
     private Long locationId;
     private String locationName;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "location")
     private List<GymClass> gymClasses;
 

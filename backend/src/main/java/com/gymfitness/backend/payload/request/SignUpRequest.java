@@ -1,6 +1,8 @@
 package com.gymfitness.backend.payload.request;
 
 import javax.validation.constraints.*;
+
+import org.hibernate.validator.constraints.Range;
  
 public class SignUpRequest {
     @NotBlank
@@ -21,6 +23,14 @@ public class SignUpRequest {
     @NotBlank
     @Size(min = 6, max = 40)
     private String password;
+
+    @NotNull(message= "Bank Number must be provided")
+    @Range(min = 1)
+    private Integer bankno;
+
+    @NotNull(message= "Clearing Number must be provided")
+    @Range(min = 1)
+    private Integer clearingno;
   
     public String getFirstname() {
         return firstname;
@@ -60,5 +70,19 @@ public class SignUpRequest {
     
     public void setUserLevel(String level) {
       this.level = level;
+    }
+
+    public Integer getBankno() {
+        return bankno;
+    }
+    public void setBankno(Integer bankno) {
+        this.bankno = bankno;
+    }
+
+    public Integer getClearingno() {
+        return clearingno;
+    }
+    public void setClearingno(Integer clearingno) {
+        this.clearingno = clearingno;
     }
 }

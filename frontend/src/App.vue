@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <nav class="navbar navbar-expand navbar-dark bg-dark">
-      <a href class="navbar-brand" @click.prevent>Fitness AB</a>
+      <router-link to="/" class="navbar-brand" @click.prevent
+        >Fitness AB</router-link
+      >
       <div class="navbar-nav mr-auto">
         <li class="nav-item">
           <router-link to="/" class="nav-link">
@@ -12,12 +14,14 @@
           <router-link to="/admin" class="nav-link">Admin Board</router-link>
         </li>
         <li v-if="showInstructorBoard" class="nav-item">
-          <router-link to="/instructor" class="nav-link">Instructor Board</router-link>
+          <router-link to="/instructor" class="nav-link">
+            Manage Classes
+          </router-link>
         </li>
         <li class="nav-item">
-          <router-link v-if="currentUser" to="/user" class="nav-link"
-            >User</router-link
-          >
+          <router-link v-if="currentUser" to="/gymclass" class="nav-link">
+            Gym Classes
+          </router-link>
         </li>
       </div>
 

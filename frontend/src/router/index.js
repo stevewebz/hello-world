@@ -4,9 +4,9 @@ import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
 import Profile from "../views/Profile.vue";
-import BoardAdmin from "../views/BoardAdmin.vue";
 import BoardInstructor from "../views/BoardInstructor.vue";
-import BoardUser from "../views/BoardUser.vue";
+import GymClass from "../views/GymClass.vue";
+import BookedClasses from "../views/BookedClasses.vue";
 import GetStarted from "../views/GetStarted.vue";
 
 Vue.use(VueRouter);
@@ -33,19 +33,19 @@ const routes = [
     component: Profile
   },
   {
-    path: "/admin",
-    name: "Admin",
-    component: BoardAdmin
-  },
-  {
     path: "/instructor",
     name: "Instructor",
     component: BoardInstructor
   },
   {
-    path: "/user",
-    name: "User",
-    component: BoardUser
+    path: "/gymclass",
+    name: "GymClass",
+    component: GymClass
+  },
+  {
+    path: "/bookedclasses",
+    name: "BookedClasses",
+    component: BookedClasses
   },
   {
     path: "/getstarted",

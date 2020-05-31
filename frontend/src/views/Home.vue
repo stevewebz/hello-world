@@ -6,7 +6,11 @@
           <h1 class="d-flex flex-start">Where Dreams Come True</h1>
           <h3 class="d-flex flex-start">Fitness AB</h3>
           <hr class="my-4" />
-          <router-link to="/getstarted" tag="button" class="btn btn-outline-dark d-flex flex-start">
+          <router-link
+            to="/getstarted"
+            tag="button"
+            class="btn btn-outline-dark d-flex flex-start"
+          >
             Get Started
           </router-link>
         </div>

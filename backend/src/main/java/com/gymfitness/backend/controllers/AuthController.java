@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +12,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,12 +21,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gymfitness.backend.models.UserLevel;
+import com.gymfitness.backend.models.Billing;
 import com.gymfitness.backend.models.EnumLevel;
 import com.gymfitness.backend.models.User;
 import com.gymfitness.backend.payload.request.LoginRequest;
 import com.gymfitness.backend.payload.request.SignUpRequest;
 import com.gymfitness.backend.payload.response.JwtResponse;
 import com.gymfitness.backend.payload.response.MessageResponse;
+import com.gymfitness.backend.repositories.BillingRepository;
 import com.gymfitness.backend.repositories.UserLevelRepository;
 import com.gymfitness.backend.repositories.UserRepository;
 import com.gymfitness.backend.security.jwt.JwtUtils;
@@ -43,6 +45,9 @@ public class AuthController {
 	UserRepository userRepository;
 
 	@Autowired
+	BillingRepository billingRepository;
+
+	@Autowired
 	UserLevelRepository userLevelRepository;
 
 	@Autowired
@@ -50,6 +55,17 @@ public class AuthController {
 
 	@Autowired
 	JwtUtils jwtUtils;
+
+	@PostMapping("/changepass")
+	public ResponseEntity<?> changeUserPassword(@Valid @RequestBody LoginRequest request) {
+		User user = userRepository.findByEmail(request.getEmail())
+						.orElseThrow(() -> new UsernameNotFoundException("User Not Found with email: " + request.getEmail()));
+
+		user.setPassword(encoder.encode(request.getPassword()));
+		userRepository.save(user);
+
+		return ResponseEntity.ok(new MessageResponse("Password changed successfully!"));
+	}
 
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -60,10 +76,13 @@ public class AuthController {
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		String jwt = jwtUtils.generateJwtToken(authentication);
 		
-		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();		
+		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+		
 		List<String> levels = userDetails.getAuthorities().stream()
 				.map(item -> item.getAuthority())
 				.collect(Collectors.toList());
+
+		
 
 		return ResponseEntity.ok(new JwtResponse(jwt, 
 												 userDetails.getId(), 
@@ -86,6 +105,8 @@ public class AuthController {
 							 signUpRequest.getSurname(), 
 							 signUpRequest.getEmail(),
 							 encoder.encode(signUpRequest.getPassword()));
+
+		Billing billing = new Billing(signUpRequest.getBankno(), signUpRequest.getClearingno(), user);
 
 		String strLevels = signUpRequest.getLevel();
 		Set<UserLevel> levels = new HashSet<>();
@@ -129,6 +150,7 @@ public class AuthController {
 
 		user.setUserLevel(levels);
 		userRepository.save(user);
+		billingRepository.save(billing);
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 	}

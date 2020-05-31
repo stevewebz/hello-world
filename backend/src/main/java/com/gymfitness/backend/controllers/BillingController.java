@@ -2,7 +2,9 @@ package com.gymfitness.backend.controllers;
 
 import com.gymfitness.backend.repositories.BillingRepository;
 import java.util.List;
+
 import com.gymfitness.backend.models.Billing;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -21,18 +23,18 @@ public class BillingController {
     @Autowired
     private BillingRepository billingRepository;
 
-    @GetMapping
+    @GetMapping("/all")
     public List<Billing> list(){
         return billingRepository.findAll();
     }
 
     @GetMapping
-    @RequestMapping("{id}")
-    public Billing get(@PathVariable Long id){
-        return billingRepository.getOne(id);
+    @RequestMapping("/{id}")
+    public List<Billing> get(@PathVariable Long id){
+        return billingRepository.findByUserUserId(id);
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public Billing create(@RequestBody final Billing billing){
         return billingRepository.saveAndFlush(billing);
     }

@@ -15,6 +15,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity(name = "users")
@@ -41,6 +42,7 @@ public class User {
     @OneToMany(mappedBy="user")
     private List<Billing> billings;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<GymClass> instructorClass;
 

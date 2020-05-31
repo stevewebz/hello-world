@@ -28,7 +28,16 @@ class AuthService {
       surname: user.surname,
       email: user.email,
       password: user.password,
-      level: user.level
+      level: user.level,
+      bankno: user.bankno,
+      clearingno: user.clearingno
+    });
+  }
+
+  changepass(user) {
+    return axios.post(API_URL + "changepass", {
+      email: user.email,
+      password: user.password,
     });
   }
 }

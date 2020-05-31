@@ -6,6 +6,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity(name = "billings")
@@ -17,11 +19,18 @@ public class Billing{
     private Integer bankNo;
     private Integer clearingNo;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="userId", referencedColumnName = "userId")
     private User user;
 
     public Billing(){
+    }
+
+    public Billing(Integer bankNo, Integer clearingNo, User user){
+        this.bankNo = bankNo;
+        this.clearingNo = clearingNo;
+        this.user = user;
     }
 
     /**
