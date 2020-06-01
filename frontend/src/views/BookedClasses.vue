@@ -17,9 +17,8 @@
           <div class="row">
             <div class="col-12">
               <div class="row">
-              <div v-for="(classes, index) in userClasses" :key="index">
-                <div class="col-12">
-                  <div class="card">
+                <div v-for="(classes, index) in userClasses" :key="index">
+                  <div class="card" style="margin-top: 2rem; margin-left: 1rem">
                     <div class="card-img">
                       <div style="text-align: center">
                         <img src="../assets/logo.png" />
@@ -32,7 +31,6 @@
                     </div>
                   </div>
                 </div>
-              </div>
               </div>
             </div>
           </div>

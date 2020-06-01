@@ -27,9 +27,8 @@
               <br/>
               <p style="text-align: center">Book classes page text here</p>
               <div class="row">
-              <div v-for="(classes, index) in gymClasses" :key="index">
-                <div class="col-12">
-                  <div class="card">
+                <div v-for="(classes, index) in gymClasses" :key="index">
+                  <div class="card" style="margin-top: 2rem; margin-left: 1rem">
                     <div class="card-img">
                       <div style="text-align: center">
                         <img src="../assets/logo.png" />
@@ -44,7 +43,6 @@
                     </div>
                   </div>
                 </div>
-              </div>
               </div>
             </div>
           </div>
