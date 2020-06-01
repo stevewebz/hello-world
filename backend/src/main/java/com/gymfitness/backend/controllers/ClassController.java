@@ -8,11 +8,14 @@ import javax.validation.Valid;
 
 import com.gymfitness.backend.models.GymClass;
 import com.gymfitness.backend.models.User;
+import com.gymfitness.backend.models.Waitlist;
 import com.gymfitness.backend.payload.request.BookClassRequest;
 import com.gymfitness.backend.payload.request.UserRequest;
 import com.gymfitness.backend.payload.response.MessageResponse;
 import com.gymfitness.backend.repositories.GymClassRepository;
 import com.gymfitness.backend.repositories.UserRepository;
+import com.gymfitness.backend.repositories.WaitlistRepository;
+
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import org.springframework.beans.BeanUtils;
@@ -37,6 +40,9 @@ public class ClassController {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    WaitlistRepository waitlistRepository;
+
     @GetMapping("/all")
     public List<GymClass> list(){
         List<GymClass> allClasses = gymClassRepository.findAll();
@@ -60,28 +66,141 @@ public class ClassController {
         GymClass gymClass = gymClassRepository.findById(request.getClassid())
                         .orElseThrow(() -> new UsernameNotFoundException("User Not Found with email: " + request.getEmail()));
 
+        if(userRepository.existsByUserIdAndGymClassesClassId(user.getUserId(), gymClass.getClassId())){
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("You have already enrolled for this class!"));
+        }
+
         Integer totalEnrolled = gymClass.getTotalEnrolled();
         Integer newEnrolled = totalEnrolled + 1;
         gymClass.setTotalEnrolled(newEnrolled);
         gymClassRepository.save(gymClass);
+        List<GymClass> existingGymList = user.getGymClasses();
+        existingGymList.add(gymClass);
 
-        List<GymClass> gymList = new ArrayList<>();
-        gymList.add(gymClass);
-
-        user.setGymClasses(gymList);
+        user.setGymClasses(existingGymList);
         userRepository.save(user);
                         
         return ResponseEntity.ok(new MessageResponse("Class booked!"));
     }
 
+    @PostMapping("/waitlist")
+    public ResponseEntity<?> joinWaitlist(@Valid @RequestBody BookClassRequest request){
+        User user = userRepository.findByEmail(request.getEmail())
+                        .orElseThrow(() -> new UsernameNotFoundException("User Not Found with email: " + request.getEmail()));
+
+        GymClass gymClass = gymClassRepository.findById(request.getClassid())
+                        .orElseThrow(() -> new UsernameNotFoundException("User Not Found with email: " + request.getEmail()));
+
+        List<Waitlist> waitlistList = waitlistRepository.findAll();
+        Integer pos = 1;
+        if(waitlistList.size() > 0){
+            for (Waitlist waitlist : waitlistList) {
+                if(waitlist.getPosition() > pos){
+                    pos = waitlist.getPosition();
+                }
+            }
+        }
+
+        if(waitlistRepository.existsByUserUserIdAndGymClassClassId(user.getUserId(), gymClass.getClassId())){
+            return ResponseEntity
+					.badRequest()
+					.body(new MessageResponse("You are already on the waitlist for this class!"));
+        }
+        Waitlist waitlist = new Waitlist(pos, user, gymClass);
+        waitlistRepository.save(waitlist);
+        
+        return ResponseEntity.ok(new MessageResponse("Waitlist joined!"));
+    }
+
+    @PostMapping("/cancelClass")
+    public ResponseEntity<?> cancelClass(@Valid @RequestBody BookClassRequest request){
+        User user = userRepository.findByEmail(request.getEmail())
+                        .orElseThrow(() -> new UsernameNotFoundException("User Not Found with email: " + request.getEmail()));
+
+        GymClass gymClass = gymClassRepository.findById(request.getClassid())
+                        .orElseThrow(() -> new UsernameNotFoundException("User Not Found with email: " + request.getEmail()));
+
+        List<GymClass> existingGymList = user.getGymClasses();
+        existingGymList.remove(gymClass);
+
+        user.setGymClasses(existingGymList);
+        userRepository.save(user);
+
+        List<Waitlist> waitlistList = waitlistRepository.findByGymClassClassId(gymClass.getClassId());
+        if(waitlistList.size() > 0){
+            for (Waitlist waitlist : waitlistList) {
+                if(waitlist.getPosition() == 1){
+                    User waitlistUser = waitlist.getUser();
+                    List<GymClass> wuExistingGymList = user.getGymClasses();
+                    wuExistingGymList.add(gymClass);
+                    waitlistUser.setGymClasses(wuExistingGymList);
+                    userRepository.save(waitlistUser);
+
+                    waitlistRepository.delete(waitlist);
+                } else {
+                    waitlist.setPosition(waitlist.getPosition() - 1);
+                    waitlistRepository.save(waitlist);
+                }
+            }
+        } else {
+            Integer totalEnrolled = gymClass.getTotalEnrolled();
+            Integer newEnrolled = totalEnrolled - 1;
+            gymClass.setTotalEnrolled(newEnrolled);
+            gymClassRepository.save(gymClass);
+        }
+                        
+        return ResponseEntity.ok(new MessageResponse("Class cancelled!"));
+    }
+
+    @PostMapping("/cancelWaitlist")
+    public ResponseEntity<?> cancelWaitlist(@Valid @RequestBody BookClassRequest request){
+        User user = userRepository.findByEmail(request.getEmail())
+                        .orElseThrow(() -> new UsernameNotFoundException("User Not Found with email: " + request.getEmail()));
+
+        GymClass gymClass = gymClassRepository.findById(request.getClassid())
+                        .orElseThrow(() -> new UsernameNotFoundException("User Not Found with email: " + request.getEmail()));
+
+        List<Waitlist> waitlistList = waitlistRepository.findByGymClassClassId(gymClass.getClassId());
+        Waitlist wl = waitlistRepository.findByUserUserIdAndGymClassClassId(user.getUserId(), gymClass.getClassId());
+        Integer currentPos = wl.getPosition();
+
+        for (Waitlist waitlist : waitlistList) {
+            if(waitlist.getPosition() > currentPos){
+                waitlist.setPosition(waitlist.getPosition() - 1);
+                waitlistRepository.save(waitlist);
+            }
+        }
+
+        waitlistRepository.delete(wl);
+                        
+        return ResponseEntity.ok(new MessageResponse("Waitlist cancelled!"));
+    }
+
     @PostMapping("/userClasses")
-    public ResponseEntity<?> bookClass(@Valid @RequestBody UserRequest request){
+    public ResponseEntity<?> userClasses(@Valid @RequestBody UserRequest request){
         User user = userRepository.findByEmail(request.getEmail())
                         .orElseThrow(() -> new UsernameNotFoundException("User Not Found with email: " + request.getEmail()));
 
         List<GymClass> userClasses = user.getGymClasses();
                         
         return ResponseEntity.ok(userClasses);
+    }
+
+    @PostMapping("/waitlistClasses")
+    public ResponseEntity<?> waitlistClasses(@Valid @RequestBody UserRequest request){
+        List<GymClass> waitlistClasses = new ArrayList<>();
+        User user = userRepository.findByEmail(request.getEmail())
+                        .orElseThrow(() -> new UsernameNotFoundException("User Not Found with email: " + request.getEmail()));
+
+        List<Waitlist> waitlistList = waitlistRepository.findByUserUserId(user.getUserId());
+        for (Waitlist waitlist : waitlistList) {
+            GymClass gymClass = gymClassRepository.findByWaitlistWaitlistId(waitlist.getWaitlistId());
+            waitlistClasses.add(gymClass);
+        }
+                        
+        return ResponseEntity.ok(waitlistClasses);
     }
 
     @GetMapping

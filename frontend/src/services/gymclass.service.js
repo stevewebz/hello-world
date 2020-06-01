@@ -17,8 +17,47 @@ class GymclassService {
     });
   }
 
+  getWaitlistClasses(user){
+    return axios.post(API_URL + "waitlistClasses", {
+      email: user.email,
+    }, 
+    { 
+      headers: authHeader()
+    });
+  }
+
   bookGymClass(gymclass, user){
     return axios.post(API_URL + "book", {
+        email: user.email,
+        classid: gymclass.classId,
+    }, 
+    { 
+      headers: authHeader()
+    });
+  }
+
+  joinWaitlist(gymclass, user){
+    return axios.post(API_URL + "waitlist", {
+        email: user.email,
+        classid: gymclass.classId,
+    }, 
+    { 
+      headers: authHeader()
+    });
+  }
+
+  cancelClass(gymclass, user){
+    return axios.post(API_URL + "cancelClass", {
+        email: user.email,
+        classid: gymclass.classId,
+    }, 
+    { 
+      headers: authHeader()
+    });
+  }
+
+  cancelWaitlist(gymclass, user){
+    return axios.post(API_URL + "cancelWaitlist", {
         email: user.email,
         classid: gymclass.classId,
     }, 

@@ -6,6 +6,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity(name = "waitlists")
@@ -16,13 +18,21 @@ public class Waitlist {
     private Long waitlistId;
     private Integer position;
 
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name="userId")
     private User user;
 
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name="classId")
     private GymClass gymClass;
+
+    public Waitlist(Integer position, User user, GymClass gymClass){
+        this.position = position;
+        this.user = user;
+        this.gymClass = gymClass;
+    }
 
     public Waitlist(){
     }

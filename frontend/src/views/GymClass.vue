@@ -40,6 +40,7 @@
                       Remaining Spaces: <strong>{{ classes.maxCapacity-classes.totalEnrolled }}</strong><br/>
                       <br/>
                       <button v-if="checkNumberEnrolled(classes)" v-on:click="bookClass(classes)" class="btn btn-sm btn-outline-dark">Book</button>
+                      <button v-if="!checkNumberEnrolled(classes)" v-on:click="joinWaitlist(classes)" class="btn btn-sm btn-outline-dark">Join Waitlist</button>
                     </div>
                   </div>
                 </div>
@@ -94,6 +95,25 @@ export default {
             (error.response && error.response.data) ||
             error.message ||
             error.toString();
+          this.$swal("Failed", error.response.data.message, "error");
+        }
+      );
+    },
+    joinWaitlist: function(gymclass) {
+      GymClassService.joinWaitlist(gymclass, this.currentUser).then(
+        response => {
+          this.loadAllClasses();
+          this.loadUserClasses();
+
+          this.$swal("Success", response.data.message, "success");
+        },
+        error => {
+          this.bookSuccess = false;
+          this.bookMessage =
+            (error.response && error.response.data) ||
+            error.message ||
+            error.toString();
+          this.$swal("Failed", error.response.data.message, "error");
         }
       );
     },
