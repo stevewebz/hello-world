@@ -3,10 +3,15 @@ package com.gymfitness.backend.controllers;
 import com.gymfitness.backend.repositories.BillingRepository;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import com.gymfitness.backend.models.Billing;
+import com.gymfitness.backend.payload.request.BillingRequest;
+import com.gymfitness.backend.payload.response.MessageResponse;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +32,15 @@ public class BillingController {
     public List<Billing> list(){
         return billingRepository.findAll();
     }
+
+    @PostMapping("/delete")
+	public ResponseEntity<?> changeUserPassword(@Valid @RequestBody BillingRequest request) {
+        Billing billing = billingRepository.findByBillingId(request.getBillingId());
+        
+        billingRepository.delete(billing);
+
+		return ResponseEntity.ok(new MessageResponse("Billing deleted!"));
+	}
 
     @GetMapping
     @RequestMapping("/{id}")

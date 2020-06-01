@@ -47,6 +47,17 @@ export const auth = {
           return Promise.reject(error);
         }
       );
+    },
+    cancelMembership({ commit }, user) {
+      return AuthService.cancelMembership(user).then(
+        response => {
+          commit("");
+          return Promise.resolve(response.data);
+        },
+        error => {
+          return Promise.reject(error);
+        }
+      );
     }
   },
   mutations: {

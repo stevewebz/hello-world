@@ -40,6 +40,12 @@ class AuthService {
       password: user.password,
     });
   }
+
+  cancelMembership(user) {
+    return axios.post(API_URL + "cancel", {
+      email: user.email,
+    });
+  }
 }
 
 export default new AuthService();

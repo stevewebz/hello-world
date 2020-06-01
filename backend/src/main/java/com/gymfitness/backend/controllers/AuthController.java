@@ -26,6 +26,7 @@ import com.gymfitness.backend.models.EnumLevel;
 import com.gymfitness.backend.models.User;
 import com.gymfitness.backend.payload.request.LoginRequest;
 import com.gymfitness.backend.payload.request.SignUpRequest;
+import com.gymfitness.backend.payload.request.UserRequest;
 import com.gymfitness.backend.payload.response.JwtResponse;
 import com.gymfitness.backend.payload.response.MessageResponse;
 import com.gymfitness.backend.repositories.BillingRepository;
@@ -56,6 +57,17 @@ public class AuthController {
 	@Autowired
 	JwtUtils jwtUtils;
 
+	@PostMapping("/cancel")
+	public ResponseEntity<?> cancel(@Valid @RequestBody UserRequest request) {
+		User user = userRepository.findByEmail(request.getEmail())
+						.orElseThrow(() -> new UsernameNotFoundException("User Not Found with email: " + request.getEmail()));
+
+		user.setCancelled(true);
+		userRepository.save(user);
+
+		return ResponseEntity.ok(new MessageResponse("Membership cancelled successfully!"));
+	}
+
 	@PostMapping("/changepass")
 	public ResponseEntity<?> changeUserPassword(@Valid @RequestBody LoginRequest request) {
 		User user = userRepository.findByEmail(request.getEmail())
@@ -69,6 +81,14 @@ public class AuthController {
 
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+		User user = userRepository.findByEmail(loginRequest.getEmail())
+			.orElseThrow(() -> new UsernameNotFoundException("User Not Found with email: " + loginRequest.getEmail()));
+
+		if (user.getCancelled() == true) {
+			return ResponseEntity
+					.badRequest()
+					.body(new MessageResponse("Error: Account has been Cancelled"));
+		}
 
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));

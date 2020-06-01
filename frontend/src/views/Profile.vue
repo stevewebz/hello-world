@@ -16,6 +16,10 @@
                 Name: <strong>{{ currentUser.firstname }} {{ currentUser.surname }}</strong><br/>
                 Email: <strong>{{ currentUser.email }}</strong><br/>
                 Membership Level: <strong>{{ userLevel }}</strong>
+                <br/>
+                <br/>
+                <br/>
+                <button v-on:click="cancelMembership" class="btn btn-sm btn-outline-danger">Cancel Membership</button>
             </b-tab>
             <b-tab title="Change Password">
               <form name="form" @submit.prevent="handleChangePass">
@@ -69,12 +73,17 @@
             <b-tab title="Billing Information">
               Probably shouldn't be showing this info!
                 <br/>
-                <ul>
-                  <li v-for="(billing, index) in userBillings" :key="index">
-                    Bank No: {{ billing.bankNo }}<br/>
+                <div v-for="(billing, index) in userBillings" :key="index">
+                  <button v-on:click="deleteBilling(billing)" class="btn btn-sm btn-outline-danger">
+                    <b-icon-x></b-icon-x>
+                  </button>
+                  <div style="margin-left: 1rem">
+                    Bank No: {{ billing.bankNo }}
+                  </div>
+                  <div style="margin-left: 1rem">
                     Clearing No: {{ billing.clearingNo }}
-                  </li>
-                </ul>
+                  </div>
+                </div>
             </b-tab>
           </b-tabs>
         </div>
@@ -130,19 +139,37 @@ export default {
       this.$router.push("/login");
     }
 
-    BillingService.getUserBilling(this.currentUser.userId).then(
-      response => {
-        this.userBillings = response.data;
-      },
-      error => {
-        this.content =
-          (error.response && error.response.data) ||
-          error.message ||
-          error.toString();
-      }
-    );
+    this.loadUserBilling();
   },
   methods: {
+    cancelMembership() {
+      this.$store.dispatch("auth/cancelMembership", this.currentUser).then(
+        data => {
+          data;
+          this.$store.dispatch("auth/logout");
+          this.$router.push("/login");
+        },
+        error => {
+            (error.response && error.response.data) ||
+            error.message ||
+            error.toString();
+        }
+      );
+    },
+    deleteBilling: function(billing) {
+      BillingService.deleteBilling(billing).then(
+        data => {
+          data;
+          this.loadUserBilling();
+          this.$swal("Success", data.message, "success");
+        },
+        error => {
+            (error.response && error.response.data) ||
+            error.message ||
+            error.toString();
+        }
+      );
+    },
     handleChangePass() {
       this.message = "";
       this.submitted = true;
@@ -163,6 +190,19 @@ export default {
           );
         }
       });
+    },
+    loadUserBilling(){
+      BillingService.getUserBilling(this.currentUser.userId).then(
+      response => {
+        this.userBillings = response.data;
+      },
+      error => {
+        this.content =
+          (error.response && error.response.data) ||
+          error.message ||
+          error.toString();
+      }
+    );
     }
   }
 };
