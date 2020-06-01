@@ -7,12 +7,15 @@ import java.util.List;
 import javax.validation.Valid;
 
 import com.gymfitness.backend.models.GymClass;
+import com.gymfitness.backend.models.Location;
 import com.gymfitness.backend.models.User;
 import com.gymfitness.backend.models.Waitlist;
 import com.gymfitness.backend.payload.request.BookClassRequest;
+import com.gymfitness.backend.payload.request.ClassRequest;
 import com.gymfitness.backend.payload.request.UserRequest;
 import com.gymfitness.backend.payload.response.MessageResponse;
 import com.gymfitness.backend.repositories.GymClassRepository;
+import com.gymfitness.backend.repositories.LocationRepository;
 import com.gymfitness.backend.repositories.UserRepository;
 import com.gymfitness.backend.repositories.WaitlistRepository;
 
@@ -43,6 +46,9 @@ public class ClassController {
     @Autowired
     WaitlistRepository waitlistRepository;
 
+    @Autowired
+    LocationRepository locationRepository;
+
     @GetMapping("/all")
     public List<GymClass> list(){
         List<GymClass> allClasses = gymClassRepository.findAll();
@@ -56,6 +62,44 @@ public class ClassController {
             }
         }
         return responseList;
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<?> createClass(@Valid @RequestBody ClassRequest request){
+        User user = userRepository.findByUserId(request.getUserId());
+
+        GymClass gymClass = new GymClass();
+
+        Location location = locationRepository.findByLocationId(request.getLocationId());
+
+        gymClass.setClassName(request.getClassName());
+        gymClass.setDateTime(request.getDateTime());
+        gymClass.setMaxCapacity(request.getMaxCapacity());
+        gymClass.setTotalEnrolled(0);
+        gymClass.setLocation(location);
+        gymClass.setInstructor(user);
+        gymClassRepository.save(gymClass);
+                        
+        return ResponseEntity.ok(new MessageResponse("Class Created!"));
+    }
+
+    @PostMapping("/update")
+    public ResponseEntity<?> updateClass(@Valid @RequestBody ClassRequest request){
+        User user = userRepository.findByUserId(request.getUserId());
+
+        GymClass gymClass = gymClassRepository.findById(request.getClassId())
+                        .orElseThrow(() -> new UsernameNotFoundException("GymClass Not Found with Class ID: " + request.getClassId().toString()));
+
+        Location location = locationRepository.findByLocationId(request.getLocationId());
+
+        gymClass.setClassName(request.getClassName());
+        gymClass.setDateTime(request.getDateTime());
+        gymClass.setMaxCapacity(request.getMaxCapacity());
+        gymClass.setLocation(location);
+        gymClass.setInstructor(user);
+        gymClassRepository.save(gymClass);
+                        
+        return ResponseEntity.ok(new MessageResponse("Class Edited!"));
     }
 
     @PostMapping("/book")
@@ -178,6 +222,16 @@ public class ClassController {
         return ResponseEntity.ok(new MessageResponse("Waitlist cancelled!"));
     }
 
+    @PostMapping("/deleteClass")
+    public ResponseEntity<?> deleteClass(@Valid @RequestBody BookClassRequest request){
+        GymClass gymClass = gymClassRepository.findById(request.getClassid())
+                        .orElseThrow(() -> new UsernameNotFoundException("User Not Found with email: " + request.getEmail()));
+
+        gymClassRepository.delete(gymClass);
+                        
+        return ResponseEntity.ok(new MessageResponse("Class deleted!"));
+    }
+
     @PostMapping("/userClasses")
     public ResponseEntity<?> userClasses(@Valid @RequestBody UserRequest request){
         User user = userRepository.findByEmail(request.getEmail())
@@ -186,6 +240,16 @@ public class ClassController {
         List<GymClass> userClasses = user.getGymClasses();
                         
         return ResponseEntity.ok(userClasses);
+    }
+
+    @PostMapping("/instructorClasses")
+    public ResponseEntity<?> instructorClasses(@Valid @RequestBody UserRequest request){
+        User user = userRepository.findByEmail(request.getEmail())
+                        .orElseThrow(() -> new UsernameNotFoundException("User Not Found with email: " + request.getEmail()));
+
+        List<GymClass> instructorClasses = gymClassRepository.findByInstructor(user);
+                        
+        return ResponseEntity.ok(instructorClasses);
     }
 
     @PostMapping("/waitlistClasses")

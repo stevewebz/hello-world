@@ -22,7 +22,7 @@
                     </div>
                     <div class="card-body">
                       Class: <strong>{{ classes.className }}</strong><br/>
-                      Time: <strong>{{ classes.dateTime | moment("DD-MM-YYYY HH:mm:ss") }}</strong><br/>
+                      Time: <strong>{{ classes.dateTime | moment("DD-MM-YYYY HH:mm") }}</strong><br/>
                       Remaining Spaces: <strong>{{ classes.maxCapacity-classes.totalEnrolled }}</strong><br/>
                       <br/>
                       <button v-on:click="cancelClass(classes)" class="btn btn-sm btn-outline-danger">Cancel</button>
@@ -55,7 +55,7 @@
                     </div>
                     <div class="card-body">
                       Class: <strong>{{ classes.className }}</strong><br/>
-                      Time: <strong>{{ classes.dateTime | moment("DD-MM-YYYY HH:mm:ss") }}</strong><br/>
+                      Time: <strong>{{ classes.dateTime | moment("DD-MM-YYYY HH:mm") }}</strong><br/>
                       Remaining Spaces: <strong>{{ classes.maxCapacity-classes.totalEnrolled }}</strong><br/>
                       <br/>
                       <button v-on:click="cancelWaitlist(classes)" class="btn btn-sm btn-outline-danger">Cancel</button>
@@ -129,7 +129,7 @@ export default {
     cancelClass: function(gymclass){
       GymClassService.cancelClass(gymclass, this.currentUser).then(
         response => {
-          this.waitlistClasses = response.data;
+          response;
           this.loadUserClasses();
           this.loadWaitlistClasses();
         },
@@ -144,7 +144,7 @@ export default {
     cancelWaitlist: function(gymclass){
       GymClassService.cancelWaitlist(gymclass, this.currentUser).then(
         response => {
-          this.waitlistClasses = response.data;
+          response;
           this.loadUserClasses();
           this.loadWaitlistClasses();
         },

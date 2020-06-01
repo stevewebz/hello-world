@@ -4,7 +4,7 @@ import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
 import Profile from "../views/Profile.vue";
-import BoardInstructor from "../views/BoardInstructor.vue";
+import ManageClasses from "../views/ManageClasses.vue";
 import GymClass from "../views/GymClass.vue";
 import BookedClasses from "../views/BookedClasses.vue";
 import GetStarted from "../views/GetStarted.vue";
@@ -33,9 +33,9 @@ const routes = [
     component: Profile
   },
   {
-    path: "/instructor",
-    name: "Instructor",
-    component: BoardInstructor
+    path: "/manageclasses",
+    name: "ManageClasses",
+    component: ManageClasses
   },
   {
     path: "/gymclass",

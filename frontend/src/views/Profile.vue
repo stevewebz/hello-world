@@ -13,11 +13,9 @@
         <div class="col col-12">
           <b-tabs content-class="mt-3">
             <b-tab title="Personal Information" active>
-              <p>
                 Name: <strong>{{ currentUser.firstname }} {{ currentUser.surname }}</strong><br/>
                 Email: <strong>{{ currentUser.email }}</strong><br/>
                 Membership Level: <strong>{{ userLevel }}</strong>
-              </p>
             </b-tab>
             <b-tab title="Change Password">
               <form name="form" @submit.prevent="handleChangePass">
@@ -69,7 +67,7 @@
         </div>
             </b-tab>
             <b-tab title="Billing Information">
-              <p>Probably shouldn't be showing this info!
+              Probably shouldn't be showing this info!
                 <br/>
                 <ul>
                   <li v-for="(billing, index) in userBillings" :key="index">
@@ -77,7 +75,6 @@
                     Clearing No: {{ billing.clearingNo }}
                   </li>
                 </ul>
-              </p>
             </b-tab>
           </b-tabs>
         </div>
@@ -117,6 +114,9 @@ export default {
           break;
         case "MEMBER_PREMIUM":
           level = "Premium";
+          break;
+        case "INSTRUCTOR":
+          level = "Instructor";
           break;
       }
       return level;

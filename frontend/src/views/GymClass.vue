@@ -36,7 +36,7 @@
                     </div>
                     <div class="card-body">
                       Class: <strong>{{ classes.className }}</strong><br/>
-                      Time: <strong>{{ classes.dateTime | moment("DD-MM-YYYY HH:mm:ss") }}</strong><br/>
+                      Time: <strong>{{ classes.dateTime | moment("DD-MM-YYYY HH:mm") }}</strong><br/>
                       Remaining Spaces: <strong>{{ classes.maxCapacity-classes.totalEnrolled }}</strong><br/>
                       <br/>
                       <button v-if="checkNumberEnrolled(classes)" v-on:click="bookClass(classes)" class="btn btn-sm btn-outline-dark">Book</button>

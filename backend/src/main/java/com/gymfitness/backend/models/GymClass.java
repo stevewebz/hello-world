@@ -35,7 +35,7 @@ public class GymClass {
 
     @ManyToOne
     @JoinColumn(name="instructorId", referencedColumnName = "userId")
-    private User user;
+    private User instructor;
 
     @OneToOne(mappedBy = "gymClass")
     private Waitlist waitlist;
@@ -59,17 +59,12 @@ public class GymClass {
         this.waitlist = waitlist;
     }
 
-    /**
-     * @return the user
-     */
-    public User getUser() {
-        return user;
+    public User getInstructor() {
+        return instructor;
     }
-    /**
-     * @param user the user to set
-     */
-    public void setUser(User user) {
-        this.user = user;
+
+    public void setInstructor(User instructor) {
+        this.instructor = instructor;
     }
 
     /**

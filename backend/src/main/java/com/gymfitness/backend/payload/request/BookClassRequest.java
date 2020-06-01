@@ -1,10 +1,8 @@
 package com.gymfitness.backend.payload.request;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 public class BookClassRequest {
-    @NotBlank
     private String email;
 
     @NotNull(message = "Please provide class id")

@@ -43,7 +43,7 @@ public class User {
     private List<Billing> billings;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "instructor")
     private List<GymClass> instructorClass;
 
     @OneToOne(mappedBy = "user")

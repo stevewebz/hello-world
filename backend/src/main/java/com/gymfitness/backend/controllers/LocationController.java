@@ -23,9 +23,11 @@ public class LocationController {
     @Autowired
     private LocationRepository locationRepository;
 
-    @GetMapping
-    public List<Location> list(){
-        return locationRepository.findAll();
+    @GetMapping("/all")
+    public List<Location> allLocations(){
+        List<Location> allLocations = locationRepository.findAll();
+        
+        return allLocations;
     }
 
     @GetMapping

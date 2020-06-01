@@ -10,11 +10,8 @@
             <font-awesome-icon icon="home" /> Home
           </router-link>
         </li>
-        <li v-if="showAdminBoard" class="nav-item">
-          <router-link to="/admin" class="nav-link">Admin Board</router-link>
-        </li>
-        <li v-if="showInstructorBoard" class="nav-item">
-          <router-link to="/instructor" class="nav-link">
+        <li v-if="showManageClasses" class="nav-item">
+          <router-link to="/manageclasses" class="nav-link">
             Manage Classes
           </router-link>
         </li>
@@ -60,13 +57,7 @@ export default {
     currentUser() {
       return this.$store.state.auth.user;
     },
-    showAdminBoard() {
-      if (this.currentUser && this.currentUser.userLevel) {
-        return this.currentUser.userLevel.includes("ADMIN");
-      }
-      return false;
-    },
-    showInstructorBoard() {
+    showManageClasses() {
       if (this.currentUser && this.currentUser.userLevel) {
         return this.currentUser.userLevel.includes("INSTRUCTOR");
       }
