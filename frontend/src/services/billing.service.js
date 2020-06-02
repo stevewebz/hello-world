@@ -8,6 +8,14 @@ class BillingService {
     return axios.get(API_URL + userid, { headers: authHeader() });
   }
 
+  createBilling(billing, user){
+    return axios.post(API_URL + "create", {
+      email: user.email,
+      bankNo: billing.bankNo,
+      clearingNo: billing.clearingNo
+    }, { headers: authHeader() });
+  }
+
   deleteBilling(billing) {
     return axios.post(API_URL + "delete", { billingId: billing.billingId }, { headers: authHeader() });
   }

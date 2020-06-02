@@ -1,17 +1,21 @@
 package com.gymfitness.backend.controllers;
 
 import com.gymfitness.backend.repositories.BillingRepository;
+import com.gymfitness.backend.repositories.UserRepository;
+
 import java.util.List;
 
 import javax.validation.Valid;
 
 import com.gymfitness.backend.models.Billing;
+import com.gymfitness.backend.models.User;
 import com.gymfitness.backend.payload.request.BillingRequest;
 import com.gymfitness.backend.payload.response.MessageResponse;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,13 +32,31 @@ public class BillingController {
     @Autowired
     private BillingRepository billingRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @GetMapping("/all")
     public List<Billing> list(){
         return billingRepository.findAll();
     }
 
+    @PostMapping("/create")
+	public ResponseEntity<?> createBilling(@Valid @RequestBody BillingRequest request) {
+        User user = userRepository.findByEmail(request.getEmail())
+                        .orElseThrow(() -> new UsernameNotFoundException("User Not Found with email: " + request.getEmail()));
+
+        Billing billing = new Billing();
+        billing.setBankNo(request.getBankNo());
+        billing.setClearingNo(request.getClearingNo());
+        billing.setUser(user);
+        
+        billingRepository.save(billing);
+
+		return ResponseEntity.ok(new MessageResponse("Billing created!"));
+	}
+
     @PostMapping("/delete")
-	public ResponseEntity<?> changeUserPassword(@Valid @RequestBody BillingRequest request) {
+	public ResponseEntity<?> deleteBilling(@Valid @RequestBody BillingRequest request) {
         Billing billing = billingRepository.findByBillingId(request.getBillingId());
         
         billingRepository.delete(billing);
@@ -46,11 +68,6 @@ public class BillingController {
     @RequestMapping("/{id}")
     public List<Billing> get(@PathVariable Long id){
         return billingRepository.findByUserUserId(id);
-    }
-
-    @PostMapping("/create")
-    public Billing create(@RequestBody final Billing billing){
-        return billingRepository.saveAndFlush(billing);
     }
 
     @RequestMapping(value="{id}",method=RequestMethod.DELETE)
