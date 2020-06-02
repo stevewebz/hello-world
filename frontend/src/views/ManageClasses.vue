@@ -245,6 +245,7 @@ export default {
     loadAllLocations(){
       LocationService.getLocations().then(
         response => {
+          this.options = [];
           this.options.push({ value: null, text: "Please select a Location" })
           response.data.forEach(element => {
             this.options.push({ value: element.locationId, text: element.locationName });
